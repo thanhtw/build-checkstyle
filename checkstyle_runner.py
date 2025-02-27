@@ -32,13 +32,14 @@ class CheckstyleRunner:
         # Use a permanent directory in user's home directory
         home_dir = Path(os.getcwd())
         checkstyle_dir = home_dir / "checkstyle"
-        checkstyle_jar = checkstyle_dir / "checkstyle.jar"        
+        checkstyle_jar = checkstyle_dir / "checkstyle.jar" 
+        checkstyle_sun = checkstyle_dir / "sun_checks.xml"        
         # Create directory if it doesn't exist
         checkstyle_dir.mkdir(parents=True, exist_ok=True)
         
         # Check if checkstyle jar already exists
-        if checkstyle_jar.exists():
-            logger.info(f"{SUCCESS} Checkstyle jar already exists at {checkstyle_jar}")
+        if checkstyle_jar.exists() and checkstyle_sun.exists():
+            logger.info(f"{SUCCESS} Checkstyle jar and config already exists at {checkstyle_jar} and {checkstyle_sun}")
             return str(checkstyle_jar)        
         # Download the latest checkstyle jar
         try:
@@ -46,6 +47,9 @@ class CheckstyleRunner:
             checkstyle_url = "https://github.com/checkstyle/checkstyle/releases/download/checkstyle-10.21.3/checkstyle-10.21.3-all.jar"
             urllib.request.urlretrieve(checkstyle_url, checkstyle_jar)
             logger.info(f"{SUCCESS} Downloaded Checkstyle jar to {checkstyle_jar}")
+            logger.info("Downloading Checkstyle config sun_checkstyle.xml...")
+            checkstyle_config_url = "https://raw.githubusercontent.com/checkstyle/checkstyle/refs/heads/master/src/main/resources/sun_checks.xml"
+            urllib.request.urlretrieve(checkstyle_config_url, checkstyle_sun)
             return str(checkstyle_jar)
         except Exception as e:
             logger.error(f"{ERROR} Failed to download Checkstyle jar: {str(e)}")
