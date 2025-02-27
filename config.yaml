@@ -1,8 +1,8 @@
 # Sample git_config.yaml with integrated quality checks
 
 gitlab:
-  url: "http://140.134.25.68:36001"  # Your GitLab server API URL
-  token: "1WWjY3nV3y6WfEmbtjLx"  # GitLab admin personal access token
+  url: "***"  # Your GitLab server API URL
+  token: "***"  # GitLab admin personal access token
 
 # Project Settings
 project:
@@ -12,10 +12,10 @@ project:
 
 # Git Connection Settings
 git:
-  ssh_url: "http://140.134.25.68:36001/"
+  ssh_url: "****"
   accept_hostkey: true
-  username: "root"
-  password: "rootrootrootroot"
+  username: "***"
+  password: "***"
 
 # Workspace Settings
 workspace:
