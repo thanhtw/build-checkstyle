@@ -50,6 +50,39 @@ class RepositoryManager:
         self.gl = gl
         self.workspace = workspace or str(Path(os.getcwd()) / "java-projects")
     
+    def ensure_workspace_directory(self):
+        """
+        Ensures the workspace directory exists and is writable.
+        If not, attempts to create a fallback directory.
+        """
+        workspace_path = Path(self.workspace)
+        
+        # Try to expand user home directory if path contains ~
+        if '~' in str(workspace_path):
+            workspace_path = Path(os.path.expanduser(str(workspace_path)))
+        
+        # If absolute path starting with / on Linux/Mac, check if it's writable
+        if str(workspace_path).startswith('/') and not os.access('/', os.W_OK):
+            # User doesn't have write access to root, use home directory instead
+            fallback_path = Path.home() / "GitProjects"
+            logger.warning(f"Warning: Cannot write to {workspace_path}. Using {fallback_path} instead.")
+            workspace_path = fallback_path
+        
+        # Ensure the directory exists
+        try:
+            workspace_path.mkdir(parents=True, exist_ok=True)
+            self.workspace = str(workspace_path)
+            logger.info(f"Using workspace directory: {self.workspace}")
+        except PermissionError:
+            # If we still have permission issues, fall back to a directory in the current working directory
+            fallback_path = Path(os.getcwd()) / "GitProjects"
+            logger.warning(f"Permission denied: Cannot create {workspace_path}. Using {fallback_path} instead.")
+            fallback_path.mkdir(parents=True, exist_ok=True)
+            self.workspace = str(fallback_path)
+            logger.info(f"Using workspace directory: {self.workspace}")
+        
+        return self.workspace
+    
     def clone_repository(self, project_id, project_hw, branch, custom_ssh_url=None, accept_hostkey=False, username=None, password=None):
         """Clone the specified GitLab repository"""
         try:  

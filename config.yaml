@@ -12,14 +12,14 @@ project:
 
 # Git Connection Settings
 git:
-  ssh_url: "****"
+  ssh_url: "***/"
   accept_hostkey: true
-  username: "***"
+  username: "root"
   password: "***"
 
 # Workspace Settings
 workspace:
-  path: "C:/GitProjects/"  # Custom local directory to clone into
+  path: "/GitProjects/"  # Custom local directory to clone into
 
 # Quality Check Settings
 quality:

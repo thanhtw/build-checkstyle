@@ -30,7 +30,7 @@ python run_checker.py
 You can configure the tool using a YAML file:
 
 ```bash
-python run_checker.py --config git_config.yaml
+python run_checker.py --config config.yaml
 ```
 
 Or with command-line arguments:
