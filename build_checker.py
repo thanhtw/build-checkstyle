@@ -46,13 +46,15 @@ class BuildChecker:
                 else:
                     # If no src directory, look for Java files anywhere in the repo
                     java_files = list(Path(self.repo_path).glob("**/*.java"))                    
-                    # Remove duplicates that might have been found
+                
+                # Remove duplicates that might have been found
                 java_files = list(set(java_files))
                     
                 if not java_files:
                     log.write(f"{ERROR} No Java files found in the repository\n")
                     logger.info(f"{ERROR} No Java files found in the repository")
                     return False                    
+                
                 log.write(f"Found {len(java_files)} Java files to compile:\n")
                 logger.info(f"Found {len(java_files)} Java files to compile:")
                 
@@ -64,6 +66,10 @@ class BuildChecker:
                 # Create a bin output directory
                 output_dir = Path(self.repo_path) / "bin"
                 output_dir.mkdir(exist_ok=True)
+                
+                # Set Java environment with UTF-8 encoding
+                java_env = dict(os.environ)
+                java_env["JAVA_TOOL_OPTIONS"] = "-Dfile.encoding=UTF-8"
                     
                 # Try to compile each Java file with UTF-8 encoding
                 success = True
@@ -71,12 +77,29 @@ class BuildChecker:
                     rel_path = java_file.relative_to(self.repo_path)
                     log.write(f"\nCompiling: {rel_path}\n")
                     logger.info(f"\nCompiling: {rel_path}")
-                        
-                    # Add -encoding UTF-8 to the javac command
-                    cmd = f"javac -encoding UTF-8 -d {output_dir} {java_file}"
-                    log.write(f"Running: {cmd}\n")
-                    logger.info(f"Running: {cmd}")
-                    result = subprocess.run(cmd, shell=True, capture_output=True, universal_newlines=True, env=dict(os.environ, JAVA_TOOL_OPTIONS="-Dfile.encoding=UTF-8"))                        
+                    
+                    # Create platform-independent command arguments list instead of shell string
+                    cmd_args = [
+                        "javac",
+                        "-encoding", "UTF-8",
+                        "-d", str(output_dir),
+                        str(java_file)
+                    ]
+                    
+                    cmd_str = " ".join(cmd_args)
+                    log.write(f"Running: {cmd_str}\n")
+                    logger.info(f"Running: {cmd_str}")
+                    
+                    # Use shell=False for better cross-platform compatibility
+                    # Pass arguments as a list rather than a string
+                    result = subprocess.run(
+                        cmd_args,
+                        shell=False,
+                        capture_output=True,
+                        text=True,
+                        env=java_env
+                    )
+                    
                     log.write(result.stdout or "")
                     log.write(result.stderr or "")
                         
@@ -87,19 +110,23 @@ class BuildChecker:
                         logger.info(result.stderr or result.stdout or "")
                         success = False
                         break                    
+                
                 if success:
                     log.write(f"\n{SUCCESS} All Java files compiled successfully\n")
                     logger.info(f"\n{SUCCESS} All Java files compiled successfully")
                     return True
                 else:
-                    # Last resort: try to compile everything at once with UTF-8 encoding
+                    # Last resort: try to compile everything at once
                     log.write("\nIndividual compilation failed.\n")
-                    logger.info("\nIndividual compilation failed.")                                           
+                    logger.info("\nIndividual compilation failed.")
+                    return False
+                                          
             except Exception as e:
                 error_msg = f"{ERROR} Error during build check: {str(e)}"
                 log.write(f"{error_msg}\n")
                 logger.error(error_msg)
                 return False        
+        
         logger.info(f"Build log saved to: {self.log_file}")
         return False
         
