@@ -1,0 +1,34 @@
+# Sample git_config.yaml with integrated quality checks
+
+gitlab:
+  url: "***"  # Your GitLab server API URL
+  token: "***"  # GitLab admin personal access token
+
+# Project Settings
+project:
+  id: "D0948363"
+  hw: "HW3"
+  branch: "master"  # Branch to checkout (usually 'master' or 'main')
+
+# Git Connection Settings
+git:
+  ssh_url: "***"
+  accept_hostkey: true
+  username: "***"
+  password: "***"
+
+# Workspace Settings
+workspace:
+  path: "C:/GitProjects/"  # Custom local directory to clone into
+
+# Quality Check Settings
+quality:
+  fail_on_issues: false  # Exit with error code if quality issues are found
+
+# Checkstyle Settings
+checkstyle:
+  config_path: null  # Path to custom Checkstyle configuration (set to null for default)
+
+# PMD Settings
+pmd:
+  ruleset: null  # Path to custom PMD ruleset (set to null for default)
