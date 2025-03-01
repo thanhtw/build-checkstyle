@@ -2,6 +2,42 @@
 
 This tool automatically clones a GitLab Java project and performs quality checks including build verification and checkstyle analysis.
 
+## Prerequisites
+
+Before using the Java Project Quality Checker, you must have Java Development Kit (JDK) installed on your system as the tool requires `javac` to build Java projects.
+
+### Installing JDK on Ubuntu/Linux
+
+```bash
+# Update package lists
+sudo apt update
+
+# Install the default JDK package
+sudo apt install default-jdk
+```
+
+Verify the installation:
+```bash
+javac -version
+```
+
+### Installing JDK on Windows
+
+1. Download the latest JDK installer from the [Oracle website](https://www.oracle.com/java/technologies/downloads/) or [OpenJDK](https://adoptium.net/)
+2. Run the installer and follow the installation wizard
+3. Add Java to your PATH environment variable:
+   - Right-click on 'This PC' or 'My Computer' and select 'Properties'
+   - Click on 'Advanced system settings'
+   - Click on 'Environment Variables'
+   - Under 'System variables', find and select 'Path', then click 'Edit'
+   - Click 'New' and add the path to the JDK bin directory (typically `C:\Program Files\Java\jdk-VERSION\bin`)
+   - Click 'OK' to close all dialogs
+
+Verify the installation by opening Command Prompt and typing:
+```
+javac -version
+
+
 ## Project Structure
 
 The project has been organized into separate modules for better maintainability:

@@ -1,25 +1,25 @@
 # Sample git_config.yaml with integrated quality checks
 
 gitlab:
-  url: "**1"  # Your GitLab server API URL
+  url: "*"  # Your GitLab server API URL
   token: "1WWjY3nV3y6WfEmbtjLx"  # GitLab admin personal access token
 
 # Project Settings
 project:
-  id: "D0948363"
-  hw: "HW3"
-  branch: "master"  # Branch to checkout (usually 'master' or 'main')
+  id: "*"
+  hw: "*"
+  branch: "*"  # Branch to checkout (usually 'master' or 'main')
 
 # Git Connection Settings
 git:
-  ssh_url: "**"
+  ssh_url: "*"
   accept_hostkey: true
   username: "root"
-  password: "***"
+  password: "*"
 
 # Workspace Settings
 workspace:
-  path: "~/GitProjects/"  # Custom local directory to clone into
+  path: "./GitProjects/"  # Custom local directory to clone into
 
 # Quality Check Settings
 quality:
