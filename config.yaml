@@ -1,21 +1,21 @@
 # Sample git_config.yaml with integrated quality checks
 
 gitlab:
-  url: "*"  # Your GitLab server API URL
-  token: "*"  # GitLab admin personal access token
+  url: "http://140.134.25.68:36001"  # Your GitLab server API URL
+  token: "1WWjY3nV3y6WfEmbtjLx"  # GitLab admin personal access token
 
 # Project Settings
 project:
-  id: "*"
-  hw: "*"
-  branch: "*"  # Branch to checkout (usually 'master' or 'main')
+  id: "D0948363"
+  hw: "HW3"
+  branch: "master"  # Branch to checkout (usually 'master' or 'main')
 
 # Git Connection Settings
 git:
-  ssh_url: "*"
+  ssh_url: "http://140.134.25.68:36001/"
   accept_hostkey: true
   username: "root"
-  password: "*"
+  password: "rootrootrootroot"
 
 # Workspace Settings
 workspace:
@@ -24,6 +24,7 @@ workspace:
 # Quality Check Settings
 quality:
   fail_on_issues: false  # Exit with error code if quality issues are found
+  build_checkstyle_dir: "../build-checkstyle/"
 
 # Checkstyle Settings
 checkstyle:
