@@ -2,7 +2,7 @@
 
 gitlab:
   url: "*"  # Your GitLab server API URL
-  token: "1WWjY3nV3y6WfEmbtjLx"  # GitLab admin personal access token
+  token: "*"  # GitLab admin personal access token
 
 # Project Settings
 project:
